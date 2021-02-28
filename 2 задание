@@ -1,0 +1,72 @@
+using System;
+
+namespace проба_5
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Бинарный поиск");
+            Console.Write("Введите элементы массива: ");
+            var s = Console.ReadLine().Split(new[] { " ", ",", ";" }, StringSplitOptions.RemoveEmptyEntries);
+            var array = new int[s.Length];
+            for (int i = 0; i < s.Length; i++)
+            {
+                array[i] = Convert.ToInt32(s[i]);
+            }
+
+            
+            Array.Sort(array);
+            Console.WriteLine("Упорядоченный массив: {0}", string.Join(", ", array));
+
+            while (true)
+            {
+                Console.Write("Введите искомое значение или -777 для выхода: ");
+                var k = Convert.ToInt32(Console.ReadLine());
+                if (k == -777)
+                {
+                    break;
+                }
+
+                var searchResult = BinarySearch(array, k, 0, array.Length - 1);
+                if (searchResult < 0)
+                {
+                    Console.WriteLine("Элемент со значением {0} не найден", k);
+                }
+                else
+                {
+                    Console.WriteLine("Элемент найден. Индекс элемента со значением {0} равен {1}", k, searchResult);
+                }
+            }
+
+            Console.ReadLine();
+
+    }
+        static int BinarySearch(int[] array, int searchedValue, int left, int right)
+        {
+
+            while (left <= right)
+            {
+
+                var middle = (left + right) / 2;
+
+                if (searchedValue == array[middle])
+                {
+                    return middle;
+                }
+                else if (searchedValue < array[middle])
+                {
+
+                    right = middle - 1;
+                }
+                else
+                {
+
+                    left = middle + 1;
+                }
+            }
+
+            return -1;
+        }
+    }
+}
